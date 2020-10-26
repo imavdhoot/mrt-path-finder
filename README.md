@@ -13,6 +13,7 @@ npm install
 ``` bash
 npm start
 ```
+- you can use [POSTMAM](https://www.postman.com/downloads/) to try out the API1. Refer below documentation
 
 ## Optimization Notes
 - **Database USE** : For this exercise, DB is not used but MRT lines and station data can be stored in DB and we can have function to refresh the map of MRT network with some interval (4 HR).
