@@ -77,7 +77,7 @@ module.exports = {
 			// console.log('#### sorted LINES %j', LINES)
 			// console.log('####  stations %j', STATIONS)
 			// console.log('####  station Names %j', STATION_NAMES)
-			console.log('#### INTERCHANGES %j', INTERCHANGES)
+			// console.log('#### INTERCHANGES %j', INTERCHANGES)
 			util.log('Initilized the STATIONS & LINES');
 		});
 	},
@@ -91,7 +91,7 @@ module.exports = {
 		if (!STATION_NAMES[data.to]) {
 			return cb(ERRORS.DEST_INVALID)
 		}
-		util.log(`[api:find] trying to find route ORIGIN from ${data.from} ORIGIN to ${data.to}`)
+		util.log(`[api:find] trying to find route origin FROM:: ${data.from} origin TO:: ${data.to}`)
 		let routes = getRoutes(data.from, data.to, [], [])
 		
 		// no routes found
@@ -118,12 +118,9 @@ function getRoutes(src, dest, routes, visitedLines) {
 	let onSameLine = false
 	let srcStations = STATION_NAMES[src]
 	let destStations = STATION_NAMES[dest]
-// console.log('### start visitedLines %j ', visitedLines) 
-// console.log('### start routes %j ', routes) 
-// console.log('###  start before srcStations %j ', srcStations)
+
 	srcStations = srcStations.filter(sc => !visitedLines.includes(sc.slice(0,2)))
-// console.log('### start  srcStations %j ', srcStations)
-// console.log('### start destStations %j ', destStations)
+
 	util.log(`[getRoutes] trying to find from:: ${src} to:: ${dest}`)
 	destStations.forEach(ds => {
 		let destLine = ds.slice(0,2)
@@ -135,7 +132,7 @@ function getRoutes(src, dest, routes, visitedLines) {
 			let srcSt = srcStations.find(sc => sc.indexOf(destLine) !== -1)
 			let destSt = destStations.find(dc => dc.indexOf(destLine) !== -1)
 
-			let newRoute = [] //(routes.pop() || [])
+			let newRoute = []
 			newRoute.push({
 				line: destLine,
 				from: srcSt,
@@ -152,19 +149,15 @@ function getRoutes(src, dest, routes, visitedLines) {
 
 	// src and dst are on same line
 	if (onSameLine) {
-// console.log('### same line route ', routes)		
 		return routes
 	}
 
 	util.log(`[getRoutes] ${dest}::${destStations} not on this line of ${src}. fetching from connected lines`)
 
-// console.log('### destStations %j ', destStations)
 	for (const sc of srcStations) {
-// console.log('### srcStation now %j ', sc)			
 		let srcLine = sc.slice(0,2)
 		let interStations = INTERCHANGES[srcLine]
 
-// console.log('### interStations >> %j', interStations, sc, STATIONS[sc])
 		if (interStations.length) {
 			interStations = interStations.sort((a, b) => {
 				let scId = sc.slice(2)
@@ -172,7 +165,7 @@ function getRoutes(src, dest, routes, visitedLines) {
 				let bId = parseInt(b.slice(2))
 				return (Math.abs(scId - aId) - Math.abs(scId - bId))
 			}).filter(it => STATIONS[sc].name !== STATIONS[it].name)
-// console.log('### sorted interStations >> %j', interStations)			
+
 			for (const intSt of interStations) {
 				util.log(`[getRoutes] trying from interchange ${STATIONS[intSt].name}::${intSt}`)
 				let intStop = {
@@ -185,32 +178,22 @@ function getRoutes(src, dest, routes, visitedLines) {
 				}
 
 				let interRoutes = []
-				// if (routes[0]) {
-				// 	interRoutes.push(...routes[0])
-				// }
-				// interRoutes.push(intStop)
 
 				let interLines = [].concat(visitedLines)
 				if (!interLines.includes(srcLine))	interLines.push(srcLine)
-// console.log('### middle routes %j ', routes)				
-// console.log('#### intStop >> ', intStop)
-// console.log('#### interLines %j', interLines)
+
 				visitedLines.push(srcLine)
 				let fetchedRoutes = getRoutes(STATIONS[intSt].name, dest, [], interLines)
 				if (fetchedRoutes && fetchedRoutes.length)	{
-// console.log('#### fetchedRoutes ', fetchedRoutes)
+
 					fetchedRoutes.forEach(fr => {
 						let foundRoute = [intStop].concat(fr)
-						// console.log('#### foundRoute ', foundRoute)
 						routes.push([...foundRoute])
 					})
-// console.log('### after routes %j ', routes) 	
 				}
-// console.log('### FINAAL routes %j', routes)
 
-				// if (routes.length >= consts.RESULT_COUNT)	break;
 			}
-			// if (routes.length >= consts.RESULT_COUNT)	break;
+
 		}
 	}
 

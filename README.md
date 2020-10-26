@@ -9,6 +9,16 @@ It generates the MRT map from csv file provides in resouces folder and find the 
 npm install
 ```
 - by default server is spawned on PORT 3000
+- start the server with following command
+``` bash
+npm start
+```
+
+## Optimization Notes
+- **Database USE** : For this exercise, DB is not used but MRT lines and station data can be stored in DB and we can have function to refresh the map of MRT network with some interval (4 HR).
+- **CACHEING:** we can cache the response as routes from source to destination MRT station will be remains the same until new lines and stations get opened.
+- **API 2** : due to time limit not able to implement the API2(time sensetive API) but after response from API1, result can be filtered out with the help of additional middleware
+- Also implemented with the help of concept of DFS, but seems like BFS is more suitable in this case 
 
 ## API 1: (without time constrain)
 - this api find the routes from source to destination MRT station.
