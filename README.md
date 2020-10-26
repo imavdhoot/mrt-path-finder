@@ -1,11 +1,21 @@
 # basic-mrt
-basic server for mrt path finder implemented in node.js
+basic server for mrt path finder implemented in node.js.
+It generates the MRT map from csv file provides in resouces folder and find the best possible routes from source to destination MRT station
 
 ## Getting started
 - [install node.js with the help of this link](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-18-04)
-- 
+- install all dependencies with following command. [Read more](https://docs.npmjs.com/cli/install)
+``` bash
+npm install
+```
+- by default server is spawned on PORT 3000
 
 ## API 1: (without time constrain)
+- this api find the routes from source to destination MRT station.
+- Ordering is based on number of stops from source to destination MRT station. 
+- **Only MRT stations which are already open at that time of spawning of server will used to find the best possible route**
+- need to provide `from` and `to` MRT station names
+
 Request :
 ```bash
 curl --location --request GET 'localhost:3000/path' \
