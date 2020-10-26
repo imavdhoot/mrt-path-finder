@@ -1,13 +1,14 @@
 'use strict';
 
-let util = require('util')
-let api = require('../api').paths;
+let util   = require('util')
+let api    = require('../api').paths;
+let ERRORS = require('../utils/errors')
 
 let paths = {
 	find: function (req, res, next) {
 		let body = req.body;
 		if (!body.from || !body.to) {
-			return next({message: 'Missing source or destination', status: 400})
+			return next(ERRORS.MISSING_FROM_TO)
 		}
 
 		let data = {
@@ -17,7 +18,7 @@ let paths = {
 
 		api.find(data, function(err, routes) {
 			if (err) return next(err);
-			res.json(routes);
+			res.json({ count: routes.length, routes });
 		});
 	},
 
