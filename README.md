@@ -1,5 +1,9 @@
 # basic-mrt
-basic server for mrt path finder
+basic server for mrt path finder implemented in node.js
+
+## Getting started
+- [install node.js with the help of this link](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-18-04)
+- 
 
 ## API 1: (without time constrain)
 Request :
@@ -9,7 +13,8 @@ curl --location --request GET 'localhost:3000/path' \
 --data-raw '{
     "from": "Telok Blangah",
     "to": "Tanjong pagar"
-}'```
+}'
+```
 Response:
 
 ```bash
