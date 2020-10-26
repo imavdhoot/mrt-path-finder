@@ -1,6 +1,6 @@
 # basic-mrt
 basic server for mrt path finder implemented in node.js.
-It generates the MRT map from csv file provides in resouces folder and find the best possible routes from source to destination MRT station
+It generates the MRT map from csv file provided in resources folder and find the best possible routes from source to destination MRT station
 
 ## Getting started
 - [install node.js with the help of this link](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-18-04)
@@ -16,14 +16,14 @@ npm start
 
 ## Optimization Notes
 - **Database USE** : For this exercise, DB is not used but MRT lines and station data can be stored in DB and we can have function to refresh the map of MRT network with some interval (4 HR).
-- **CACHEING:** we can cache the response as routes from source to destination MRT station will be remains the same until new lines and stations get opened.
+- **CACHING:** we can cache the response as routes from source to destination MRT station will be remains the same until new lines and stations get opened.
 - **API 2** : due to time limit not able to implement the API2(time sensetive API) but after response from API1, result can be filtered out with the help of additional middleware
 - Also implemented with the help of concept of DFS, but seems like BFS is more suitable in this case 
 
 ## API 1: (without time constrain)
 - this api find the routes from source to destination MRT station.
 - Ordering is based on number of stops from source to destination MRT station. 
-- **Only MRT stations which are already open at that time of spawning of server will used to find the best possible route**
+- **Only MRT stations which are already open at the time of spawning of the server, will used to find the best possible route**
 - need to provide `from` and `to` MRT station names
 
 Request :
